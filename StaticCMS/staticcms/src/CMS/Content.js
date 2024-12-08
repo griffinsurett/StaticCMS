@@ -1,9 +1,9 @@
-// import RelationalUtil from "./Utils/RelationsUtil";
-import processDynamicContent from "./Utils/DynamicContentUtils";
+// Content.js
+import processDynamicContent from "./Utils/DynamicContent/DynamicContentUtils";
 import defaultPages from "./DefaultPages";
-import { processHomepage } from "./Utils/StaticPageUtils/HomepageUtils";
-import RelationalUtil from "./Utils/RelationsUtil";
-import { BuildMenus } from "./Utils/MenuUtils";
+import { processHomepage } from "./Utils/StaticPages/HomepageUtils";
+import RelationalUtil from "./Utils/Relations/RelationsUtil";
+import { BuildMenus } from "./Utils/DynamicContent/MenuUtils";
 
 import {
   faFacebook,
@@ -51,10 +51,13 @@ const siteSettings = {
   siteTagline: "Serving Middlesex County, NJ and More",
   siteDescription:
     "Providing expert construction, renovation, and demolition services to Middlesex County and beyond, ensuring quality and reliability at every step.",
+  siteLogo: "https://example.com/logo.png",
   siteCompany: "Pronto Construction and Demolition",
   businessOwner: "Anthony Gonzalez",
   ownerDateOfBirth: "2004-12-30",
   BusinessName: "Pronto Construction LLC",
+  CTAButton: "Get Quote",
+  CTALink: "/contact-us",
   get Copyright() {
     const currentYear = new Date().getFullYear();
     return `Copyright © ${currentYear} ${this.BusinessName}`;
@@ -71,10 +74,6 @@ const siteSettings = {
     return age;
   },
 };
-
-// Example usage:
-console.log(`Owner's age: ${siteSettings.ownerAge}`);
-
 
 // Collections
 const collections = [
@@ -97,29 +96,28 @@ const collections = [
       {
         title: "Who We Are",
         heading: "Founded By Teens on a Mission for Success...",
-        description: 
-          `Founded in 2022 by ${siteSettings.ownerAge}-year-old Anthony Gonzalez and his team, Pronto Construction and Demolition is a dynamic company built on a passion for construction and dedication to excellence. We combine youthful energy with industry expertise to deliver exceptional results for our clients.`,
+        description: `Founded in 2022 by ${siteSettings.ownerAge}-year-old Anthony Gonzalez and his team, Pronto Construction and Demolition is a dynamic company built on a passion for construction and dedication to excellence. We combine youthful energy with industry expertise to deliver exceptional results for our clients.`,
       },
       {
         title: "What We Do",
-        description: 
+        description:
           "We specialize in construction, renovation, and demolition services. Our team tackles projects of all sizes, from interior upgrades and exterior enhancements to complete structure demolitions. Whatever your vision, we turn it into reality.",
       },
     ],
     purpose: {
       title: "Our Purpose",
       heading: "Mission and Vision",
-      description: 
+      description:
         "At Pronto Construction and Demolition, our purpose is to deliver exceptional results and build lasting trust with our clients. Below are the principles that guide everything we do:",
       items: [
         {
           title: "Mission",
-          description: 
+          description:
             "To provide reliable, efficient, and high-quality construction and demolition services that meet the unique needs of our clients.",
         },
         {
           title: "Vision",
-          description: 
+          description:
             "To be the most trusted construction and demolition company in Middlesex County, known for unparalleled service and exceptional results.",
         },
       ],
@@ -129,7 +127,7 @@ const collections = [
       "https://picsum.photos/400/300?random=1",
       "https://picsum.photos/400/300?random=2",
     ],
-  },  
+  },
   {
     id: 2,
     collection: "contact",
@@ -158,7 +156,7 @@ const collections = [
           return `mailto:${this.value}`;
         },
       },
-    ],    
+    ],
     socialMedia: [
       {
         platform: "Facebook",
@@ -203,8 +201,8 @@ const collections = [
     sections: ["hero", "services", "benefits", "projects", "testimonials"],
     itemSections: ["hero", "projects", "testimonials"],
     addToMenu: ["Primary"], // Add to multiple menus
-    addItemsToMenu: "Primary", 
-    putItemsInSubMenu: "Primary", 
+    addItemsToMenu: "Primary",
+    putItemsInSubMenu: "Primary",
     paragraph:
       "Explore our wide range of services designed to meet your needs.",
     items: [
@@ -212,7 +210,6 @@ const collections = [
         icon: faTools,
         title: "Construction Work",
         description: "Comprehensive construction services for all your needs.",
-        
       },
       {
         icon: faHardHat,
@@ -522,8 +519,8 @@ const Menus = [
     name: "Footer",
     items: [
       { title: "Privacy Policy", slug: "/privacy-policy" },
-      { title: "Cookie Policy", slug: "/cookie-policy"}
-    ]
+      { title: "Cookie Policy", slug: "/cookie-policy" },
+    ],
   },
 ];
 

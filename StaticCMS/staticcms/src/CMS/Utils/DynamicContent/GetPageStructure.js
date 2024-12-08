@@ -1,7 +1,7 @@
 // CMS/Utils/GetPageStructure.js
-import Content from "../Content";
-import { getCollection } from "./GetContent/GetCollection";
-import { RelationalUtil } from "./RelationsUtil"; // Import relational utility
+import Content from "../../Content";
+import { getCollection } from "../GetContent/GetCollection";
+import { RelationalUtil } from "../Relations/RelationsUtil"; // Import relational utility
 
 const relationalUtil = new RelationalUtil(Content);
 
@@ -27,11 +27,19 @@ export const getPageStructure = (pageId) => {
     collection.items.some((item) => item.slug === pageId);
 
   // Handle individual item pages
-  const item = isItemPage ? collection.items.find((i) => i.slug === pageId) : null;
+  const item = isItemPage
+    ? collection.items.find((i) => i.slug === pageId)
+    : null;
 
   // Resolve title, description, and content
-  const title = item?.title || item?.name || page.title || collection?.title || "Untitled Page";
-  const description = item?.description || collection?.paragraph || page.description || "";
+  const title =
+    item?.title ||
+    item?.name ||
+    page.title ||
+    collection?.title ||
+    "Untitled Page";
+  const description =
+    item?.description || collection?.paragraph || page.description || "";
   const content = page.content || item?.content || "";
 
   let sections = [];
@@ -44,14 +52,19 @@ export const getPageStructure = (pageId) => {
       collection.items.forEach((item) => {
         Object.keys(item).forEach((relationKey) => {
           if (relationKey.startsWith("relatedTo")) {
-            const relatedCollectionName = relationKey.replace("relatedTo", "").toLowerCase();
+            const relatedCollectionName = relationKey
+              .replace("relatedTo", "")
+              .toLowerCase();
             const relatedSlugs = item[relationKey] || [];
 
             const relatedItems = relatedSlugs
-              .map((slug) => relationalUtil.findEntityBySlug(relatedCollectionName, slug))
+              .map((slug) =>
+                relationalUtil.findEntityBySlug(relatedCollectionName, slug)
+              )
               .filter(Boolean);
 
-            aggregatedRelations[relatedCollectionName] = aggregatedRelations[relatedCollectionName] || [];
+            aggregatedRelations[relatedCollectionName] =
+              aggregatedRelations[relatedCollectionName] || [];
             aggregatedRelations[relatedCollectionName].push(...relatedItems);
           }
         });
@@ -60,21 +73,23 @@ export const getPageStructure = (pageId) => {
       // Deduplicate aggregated relations
       Object.keys(aggregatedRelations).forEach((key) => {
         aggregatedRelations[key] = [
-          ...new Map(aggregatedRelations[key].map((item) => [item.slug, item])).values(),
+          ...new Map(
+            aggregatedRelations[key].map((item) => [item.slug, item])
+          ).values(),
         ];
       });
     }
 
     sections = page.sections.map((sectionKey) => {
       let sectionData;
-      
+
       if (sectionKey === collection.collection) {
         sectionData = collection; // Direct collection data
       } else if (sectionKey in collection) {
         sectionData = collection[sectionKey]; // Collection-specific property
       } else {
         sectionData = {
-          ...getCollection(sectionKey) || {},
+          ...(getCollection(sectionKey) || {}),
           items: aggregatedRelations[sectionKey] || [],
         }; // Fallback to general collection
       }

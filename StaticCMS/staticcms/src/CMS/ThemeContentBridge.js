@@ -2,9 +2,9 @@
 // ThemeContentBridge.js
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { getPageStructure } from "./Utils/GetPageStructure";
+import { getPageStructure } from "./Utils/DynamicContent/GetPageStructure";
 import { getSiteSettings } from "./Utils/GetContent/GetSettings";
-import { setTitle } from "./Utils/SetTitle";
+import { setTitle } from "./Utils/SEO/SetTitle";
 import Content from "./Content"; // Access menus directly
 
 const useThemeContent = (pageId) => {

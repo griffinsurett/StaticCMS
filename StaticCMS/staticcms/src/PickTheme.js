@@ -1,7 +1,7 @@
 // CMS/Utils/PickTheme.js
 import React from "react";
 // import CMSDisplayTheme from "../themes/CMSDisplayTheme/CMSDisplayTheme";
-import Pronto from "../themes/Pronto/CMSDisplayTheme";
+import Pronto from "./themes/Pronto/CMSDisplayTheme";
 
 // Dynamic Theme Loader Component
 const DynamicThemeLoader = ({ pageId }) => {

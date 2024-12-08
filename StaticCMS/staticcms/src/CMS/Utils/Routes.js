@@ -1,9 +1,9 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Content from "../Content";
-import PickTheme from "../PickTheme";
-import CollectionRedirect from "./RedirectUtils/CollectionRedirect";
-import RedirectUtils from "./RedirectUtils/RedirectFrom";
+import PickTheme from "../../PickTheme";
+import CollectionRedirect from "./Redirect/CollectionRedirect";
+import RedirectUtils from "./Redirect/RedirectFrom";
 
 const DynamicRoutes = () => {
   // Separate static pages and collection pages
