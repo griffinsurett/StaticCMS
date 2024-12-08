@@ -52,36 +52,40 @@
   }
   
   /* Submenu */
-  .submenu {
-    position: absolute;
-    top: calc(100% + 1px);
-    left: 0;
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    padding: 10px;
-    list-style: none;
-    margin: 0;
-    min-width: 150px;
-    display: none;
-    z-index: 1000;
-  }
-  
-  .menu-item:hover .submenu {
-    display: block;
-  }
-  
-  .submenu li {
-    margin: 5px 0;
-  }
-  
-  .submenu li a {
-    text-decoration: none;
-    color: #333;
-  }
-  
-  .submenu li a:hover {
-    text-decoration: underline;
-  }
+/* Submenu base styles */
+/* Submenu styles */
+.submenu {
+  display: none; /* Default: hidden */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  padding: 10px;
+  list-style: none;
+  margin: 0;
+  min-width: 150px;
+  z-index: 1000;
+}
+
+/* Show submenu when the parent has the 'open' class */
+.menu-item.open .submenu {
+  display: block;
+}
+
+/* Submenu items */
+.submenu li {
+  margin: 5px 0;
+}
+
+.submenu li a {
+  text-decoration: none;
+  color: #333;
+}
+
+.submenu li a:hover {
+  text-decoration: underline;
+}
   
   /* Hamburger Menu */
   .hamburger-container {

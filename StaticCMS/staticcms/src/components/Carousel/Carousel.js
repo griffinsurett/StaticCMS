@@ -35,7 +35,6 @@ const StyledSlider = styled(Slider)`
     background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
     color: white;
     border: none;
-    border-radius: 50%; /* Circular buttons */
     display: flex;
     justify-content: center;
     align-items: center;

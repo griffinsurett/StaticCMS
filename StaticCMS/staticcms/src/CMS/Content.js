@@ -146,15 +146,19 @@ const collections = [
         icon: faPhone,
         label: "Phone",
         value: "(732) 939-1309",
-        href: "tel:7329391309",
+        get href() {
+          return `tel:${this.value.replace(/\D/g, "")}`; // Removes non-numeric characters
+        },
       },
       {
         icon: faEnvelope,
         label: "Email",
         value: "prontonj@gmail.com",
-        href: "mailto:prontonj@gmail.com",
+        get href() {
+          return `mailto:${this.value}`;
+        },
       },
-    ],
+    ],    
     socialMedia: [
       {
         platform: "Facebook",
