@@ -27,6 +27,7 @@ const Header = ({ siteSettings }) => {
       <header className="site-header">
         <div className="container">
           <div className="header-content">
+            <img src={siteSettings.siteLogo} alt={siteSettings.siteTitle} width={60} />
             {/* Site Title */}
             <h1 className="site-title">{siteSettings.siteTitle}</h1>
 

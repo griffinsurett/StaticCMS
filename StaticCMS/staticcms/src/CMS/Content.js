@@ -4,6 +4,7 @@ import defaultPages from "./DefaultPages";
 import { processHomepage } from "./Utils/StaticPages/HomepageUtils";
 import RelationalUtil from "./Utils/Relations/RelationsUtil";
 import { BuildMenus } from "./Utils/DynamicContent/MenuUtils";
+import { setLogo } from "./Utils/SEO/SetLogo";
 
 import {
   faFacebook,
@@ -45,13 +46,15 @@ import {
   faRibbon,
 } from "@fortawesome/free-solid-svg-icons";
 
+const Logo = `${process.env.PUBLIC_URL}/transparent-bg-pronto.png`;
+
 // Site Settings
 const siteSettings = {
   siteTitle: "Pronto Construction and Demolition",
   siteTagline: "Serving Middlesex County, NJ and More",
   siteDescription:
     "Providing expert construction, renovation, and demolition services to Middlesex County and beyond, ensuring quality and reliability at every step.",
-  siteLogo: "https://example.com/logo.png",
+  siteLogo: Logo,
   siteCompany: "Pronto Construction and Demolition",
   businessOwner: "Anthony Gonzalez",
   ownerDateOfBirth: "2004-12-30",
@@ -74,6 +77,8 @@ const siteSettings = {
     return age;
   },
 };
+
+setLogo(siteSettings.siteLogo);
 
 // Collections
 const collections = [
