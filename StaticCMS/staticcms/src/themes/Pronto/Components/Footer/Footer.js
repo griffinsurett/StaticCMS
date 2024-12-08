@@ -5,20 +5,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Footer = ({ siteSettings }) => {
   const footerMenu = siteSettings.menus.find((menu) => menu.name === "Footer");
-  const contactMenu = siteSettings.menus.find((menu) => menu.name === "Contact Info");
+  // const contactMenu = siteSettings.menus.find((menu) => menu.name === "Contact Info");
   const socialMenu = siteSettings.menus.find((menu) => menu.name === "Social Media");
   const ctaMenu = siteSettings.menus.find((menu) => menu.name === "CTA");
 
   return (
     <footer className="site-footer">
-      <div className="container footer-content">
-        <ul className="footer-menu">
+       <ul className="footer-menu">
           {footerMenu?.items.map((item, index) => (
             <li key={index} className="footer-item">
               <a href={item.slug || item.link}>{item.title}</a>
             </li>
           ))}
         </ul>
+
+      {/* <div className="container footer-content"> */}
 
         <ul className="cta-menu">
           {ctaMenu?.items.map((item, index) => (
@@ -28,7 +29,7 @@ const Footer = ({ siteSettings }) => {
           ))}
         </ul>
 
-        {contactMenu && (
+        {/* {contactMenu && (
           <ul className="contact-menu">
             <h4>Contact Info</h4>
             {contactMenu.items.map((item, index) => (
@@ -37,7 +38,7 @@ const Footer = ({ siteSettings }) => {
               </li>
             ))}
           </ul>
-        )}
+        )} */}
 
         {socialMenu && (
           <ul className="social-menu">
@@ -51,9 +52,9 @@ const Footer = ({ siteSettings }) => {
             ))}
           </ul>
         )}
+      {/* </div> */}
+      <p>{siteSettings.Copyright}</p>
 
-        <p>{siteSettings.Copyright}</p>
-      </div>
     </footer>
   );
 };

@@ -205,6 +205,7 @@ const collections = [
     sections: ["hero", "services", "benefits", "projects", "testimonials"],
     itemSections: ["hero", "projects", "testimonials"],
     addToMenu: ["Primary"], // Add to multiple menus
+    includeCollectionSlug: false,
     addItemsToMenu: "Primary",
     putItemsInSubMenu: "Primary",
     paragraph:
@@ -368,6 +369,7 @@ const collections = [
     title: "Projects",
     hasPage: true,
     itemsHasPage: true,
+    // includeCollectionSlug: true,
     addToMenu: "Primary", // Add to Primary menu
     slug: "/projects",
     sections: ["hero", "projects", "testimonials"],

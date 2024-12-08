@@ -1,7 +1,7 @@
 /**
  * AutoSlug.js
  * Utility to generate automatic slugs for collections and items.
- * Automatically prefixes item slugs with their parent collection name.
+ * Automatically prefixes item slugs with their parent collection name unless `includeCollectionSlug` is explicitly set to `false`.
  */
 const generateSlug = (title) => {
   if (!title) return ""; // Handle cases where no title is provided
@@ -14,6 +14,9 @@ const generateSlug = (title) => {
 
 const autoSlug = (collections) => {
   collections.forEach((collection) => {
+    // Default `includeCollectionSlug` to true
+    const includeCollectionSlug = collection.includeCollectionSlug ?? true;
+
     // Generate a slug for the collection if it doesn't already have one
     if (!collection.slug) {
       collection.slug = `/${generateSlug(collection.title || collection.heading)}`;
@@ -25,10 +28,30 @@ const autoSlug = (collections) => {
 
       collection.items.forEach((item) => {
         const itemSlug = generateSlug(item.title || item.name);
+
         if (!item.slug) {
-          item.slug = `${parentSlug}/${itemSlug}`;
+          // Generate slug based on `includeCollectionSlug`
+          item.slug = includeCollectionSlug
+            ? `${parentSlug}/${itemSlug}`
+            : `/${itemSlug}`;
+
+          // Add redirect for the alternate slug
+          item.redirectFrom = item.redirectFrom || [];
+          item.redirectFrom.push(
+            includeCollectionSlug ? `/${itemSlug}` : `${parentSlug}/${itemSlug}`
+          );
         } else if (!item.slug.startsWith(parentSlug)) {
-          item.slug = `${parentSlug}/${item.slug.replace(/^\//, "")}`;
+          // Respect manually set slugs and normalize them
+          const manualSlug = item.slug.replace(/^\//, "");
+          item.slug = includeCollectionSlug
+            ? `${parentSlug}/${manualSlug}`
+            : `/${manualSlug}`;
+
+          // Add redirect for the alternate slug
+          item.redirectFrom = item.redirectFrom || [];
+          item.redirectFrom.push(
+            includeCollectionSlug ? `/${manualSlug}` : `${parentSlug}/${manualSlug}`
+          );
         }
       });
     }
