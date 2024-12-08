@@ -13,6 +13,7 @@ import Header from "./Components/Header/Header";
 import Footer from "./Components/Footer/Footer";
 import AboutInfo from "./Components/Section/About/AboutInfo";
 import AboutPurpose from "./Components/Section/About/AboutPurpose";
+import Process from "./Components/Section/Process/Process";
 
 const sectionComponents = {
   about: About,
@@ -23,6 +24,7 @@ const sectionComponents = {
   faq: FAQ,
   aboutInfo: AboutInfo,
   purpose: AboutPurpose,
+  process: Process,
 };
 
 console.log(sectionComponents);

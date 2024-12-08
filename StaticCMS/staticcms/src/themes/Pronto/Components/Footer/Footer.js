@@ -7,6 +7,7 @@ const Footer = ({ siteSettings }) => {
   const footerMenu = siteSettings.menus.find((menu) => menu.name === "Footer");
   const contactMenu = siteSettings.menus.find((menu) => menu.name === "Contact Info");
   const socialMenu = siteSettings.menus.find((menu) => menu.name === "Social Media");
+  const ctaMenu = siteSettings.menus.find((menu) => menu.name === "CTA");
 
   return (
     <footer className="site-footer">
@@ -15,6 +16,14 @@ const Footer = ({ siteSettings }) => {
           {footerMenu?.items.map((item, index) => (
             <li key={index} className="footer-item">
               <a href={item.slug || item.link}>{item.title}</a>
+            </li>
+          ))}
+        </ul>
+
+        <ul className="cta-menu">
+          {ctaMenu?.items.map((item, index) => (
+            <li key={index} className="cta-item">
+              <a href={item.link || item.link}>{item.title}</a>
             </li>
           ))}
         </ul>

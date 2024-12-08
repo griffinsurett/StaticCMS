@@ -3,7 +3,7 @@ import Carousel from "../../../../../../components/Carousel/Carousel";
 import "./carousel-testimonials.css";
 
 const CarouselTestimonials = ({ items }) => {
-    console.log("CarouselTestimonials items:", items); // Debug log
+    // console.log("CarouselTestimonials items:", items); // Debug log
   
     const testimonialSlides = items.map((testimonial, index) => (
       <div key={index} className="carousel-slide">

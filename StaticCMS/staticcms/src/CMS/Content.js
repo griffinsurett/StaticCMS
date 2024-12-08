@@ -5,6 +5,7 @@ import { processHomepage } from "./Utils/StaticPages/HomepageUtils";
 import RelationalUtil from "./Utils/Relations/RelationsUtil";
 import { BuildMenus } from "./Utils/DynamicContent/MenuUtils";
 import { setLogo } from "./Utils/SEO/SetLogo";
+import { generateMenus } from "./Menus"; // Import menu generation logic
 
 import {
   faFacebook,
@@ -77,8 +78,6 @@ const siteSettings = {
     return age;
   },
 };
-
-setLogo(siteSettings.siteLogo);
 
 // Collections
 const collections = [
@@ -475,6 +474,51 @@ const collections = [
       },
     ],
   },
+  {
+    id: 8,
+    collection: "process",
+    heading: "How It Works",
+    title: "Process",
+    hasPage: false,
+    itemsHasPage: false,
+    slug: "/process",
+    sections: ["hero", "process"],
+    paragraph: "Discover how Pronto Construction & Demolition simplifies your project from start to finish.",
+    items: [
+      {
+        id: 1,
+        name: "Consultation & Planning",
+        description:
+          "We start by understanding your needs and creating a customized plan for your project.",
+        slug: null, // No individual page for this step
+        image: "https://example.com/consultation.jpg",
+      },
+      {
+        id: 2,
+        name: "Transparent Quoting",
+        description:
+          "Receive a detailed, upfront quote with no hidden fees or surprises.",
+        slug: null,
+        image: "https://example.com/quote.jpg",
+      },
+      {
+        id: 3,
+        name: "Expert Execution",
+        description:
+          "Our skilled team brings your vision to life while prioritizing safety and precision.",
+        slug: null,
+        image: "https://example.com/execution.jpg",
+      },
+      {
+        id: 4,
+        name: "Cleanup & Final Touches",
+        description:
+          "We leave your site spotless and ready for its next phase.",
+        slug: null,
+        image: "https://example.com/cleanup.jpg",
+      },
+    ],
+  },
 ];
 
 // Homepage Override
@@ -482,11 +526,13 @@ const homepageOverride = {
   sections: [
     "hero",
     "about",
+    "process",
     "services",
     "benefits",
     "projects",
     "testimonials",
     "contact",
+    "cta"
   ],
 };
 
@@ -511,36 +557,14 @@ relationalUtil.relate(
   "/john-doe"
 );
 
-const Menus = [
-  {
-    id: 0,
-    name: "Primary",
-    items: [
-      { title: "Home", slug: "/" }, // Static menu item
-    ],
-  },
-  {
-    id: 1,
-    name: "Footer",
-    items: [
-      { title: "Privacy Policy", slug: "/privacy-policy" },
-      { title: "Cookie Policy", slug: "/cookie-policy" },
-    ],
-  },
-];
-
-console.log("Menus: ", Menus);
-
-// Generate menus dynamically
-const dynamicMenus = BuildMenus(processedCollections, Menus);
-console.log(dynamicMenus);
+setLogo(siteSettings.siteLogo);
 
 // Export menus along with the rest of the content
 const Content = {
   siteSettings,
   collections: processedCollections,
   pages: processedPages,
-  menus: dynamicMenus,
+  menus: generateMenus(processedCollections, siteSettings),
 };
 
 export default Content;
