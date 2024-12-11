@@ -2,50 +2,10 @@
 import processDynamicContent from "./Utils/DynamicContent/DynamicContentUtils";
 import defaultPages from "./DefaultPages";
 import { processHomepage } from "./Utils/StaticPages/HomepageUtils";
-import RelationalUtil from "./Utils/Relations/RelationsUtil";
-import { BuildMenus } from "./Utils/DynamicContent/MenuUtils";
+import RelationalUtil from "./Utils/Relationships/RelationsUtil";
 import { setLogo } from "./Utils/SEO/SetLogo";
-import { generateMenus } from "./Menus"; // Import menu generation logic
-
-import {
-  faFacebook,
-  faInstagram,
-  faLinkedin,
-  faXTwitter,
-} from "@fortawesome/free-brands-svg-icons";
-import {
-  faPhone,
-  faEnvelope,
-  faTools,
-  faWrench,
-  faTruck,
-  faHardHat,
-  faHouseUser,
-  faHammer,
-  faBuilding,
-  faTractor,
-  faPaintRoller,
-  faTrash,
-  faSnowplow,
-  faRoad,
-  faShower,
-  faRulerCombined,
-  faHome,
-  faWater,
-  faTree,
-  faLeaf,
-  faCubes,
-  faScrewdriver,
-  faWarehouse,
-  faPlusSquare,
-  faWindowRestore,
-  faLayerGroup,
-  faDungeon,
-  faMonument,
-  faChair,
-  faGavel,
-  faRibbon,
-} from "@fortawesome/free-solid-svg-icons";
+import { generateQueries } from "./Queries"; // Import menu generation logic
+import { getIcon } from "./Utils/Icons/IconImporter";
 
 const Logo = `${process.env.PUBLIC_URL}/transparent-bg-pronto.png`;
 
@@ -77,6 +37,18 @@ const siteSettings = {
     }
     return age;
   },
+  keywords: [
+    "construction services",
+    "renovation experts",
+    "demolition services",
+    "Middlesex County construction",
+    "NJ construction company",
+    "home improvement",
+    "commercial construction",
+    "licensed contractors",
+    "building demolition NJ",
+    "renovation Middlesex County",
+  ],
 };
 
 // Collections
@@ -86,66 +58,110 @@ const collections = [
     collection: "about",
     heading: "About Pronto Construction and Demolition",
     title: "About Us",
-    addToMenu: "Primary", // Add to Primary menu
+    featuredImage: "https://picsum.photos/200/300",
+    addToQuery: "Primary",
     hasPage: true,
     slug: "/about-us",
-    sections: ["hero", "about", "purpose"],
+    sections: [
+      "hero",
+      "about",
+      "purpose",
+      "whyChooseUs",
+      "aboutInfo",
+      "benefits",
+    ],
     redirectFrom: ["/about"],
-    paragraphs: [
-      "At Pronto Construction and Demolition, we specialize in delivering high-quality renovation, construction, and demolition services. With a commitment to excellence and over 10 years of industry experience, we serve Middlesex County, NJ, and surrounding areas.",
-      "Our team is skilled in a wide range of services, from interior renovations to complete demolition projects. Whether you need a new kitchen, a repaired deck, or an entire building torn down, we're here to get the job done right.",
-    ],
-    button: { text: "Learn More", link: "#" },
-    aboutInfo: [
-      {
-        title: "Who We Are",
-        heading: "Founded By Teens on a Mission for Success...",
-        description: `Founded in 2022 by ${siteSettings.ownerAge}-year-old Anthony Gonzalez and his team, Pronto Construction and Demolition is a dynamic company built on a passion for construction and dedication to excellence. We combine youthful energy with industry expertise to deliver exceptional results for our clients.`,
-      },
-      {
-        title: "What We Do",
-        description:
-          "We specialize in construction, renovation, and demolition services. Our team tackles projects of all sizes, from interior upgrades and exterior enhancements to complete structure demolitions. Whatever your vision, we turn it into reality.",
-      },
-    ],
+    paragraph:
+      "At Pronto Construction and Demolition, we specialize in delivering high-quality renovation, construction, and demolition services.",
     purpose: {
+      makeObjectSection: true,
       title: "Our Purpose",
       heading: "Mission and Vision",
-      description:
-        "At Pronto Construction and Demolition, our purpose is to deliver exceptional results and build lasting trust with our clients. Below are the principles that guide everything we do:",
+      description: "Guided by principles of trust and excellence.",
       items: [
         {
           title: "Mission",
-          description:
-            "To provide reliable, efficient, and high-quality construction and demolition services that meet the unique needs of our clients.",
+          description: "Provide reliable and efficient construction services.",
         },
         {
           title: "Vision",
-          description:
-            "To be the most trusted construction and demolition company in Middlesex County, known for unparalleled service and exceptional results.",
+          description: "Become the most trusted construction company.",
         },
       ],
     },
-    aboutHeading: "About Us", // Added a dedicated heading for the About section
-    teamImages: [
-      "https://picsum.photos/400/300?random=1",
-      "https://picsum.photos/400/300?random=2",
+    whyChooseUs: {
+      title: "Why Choose Us?",
+      heading: `Why Choose ${siteSettings.siteTitle}?`,
+      makeObjectSection: true,
+      items: [
+        {
+          title: "Satisfaction Guarantee",
+          icon: getIcon("fa", "Ribbon"),
+          description: "We guarantee your satisfaction.",
+        },
+        {
+          title: "Quick and Efficient",
+          icon: getIcon("fa", "Truck"),
+          description: "Efficient services with minimal disruption.",
+        },
+      ],
+    },
+    keywords: [
+      "about Pronto Construction",
+      "NJ renovation company",
+      "construction expertise",
+      "Middlesex County contractors",
+      "trustworthy construction services",
     ],
+    benefits: {
+      makeObjectSection: true,
+      title: "Benefits",
+      heading: "Our Key Benefits",
+      items: [
+        {
+          title: "Satisfaction Guarantee",
+          icon: getIcon("fa", "Ribbon"),
+          description: "We guarantee your satisfaction.",
+        },
+        {
+          title: "Quick and Efficient",
+          icon: getIcon("fa", "Truck"),
+          description: "Efficient services with minimal disruption.",
+        },
+      ],
+    },
+    aboutInfo: {
+      makeObjectSection: true,
+      title: "About Us in Detail",
+      heading: "Who We Are",
+      items: [
+        {
+          title: "Who We Are",
+          heading: "Founded By Teens on a Mission for Success...",
+          description: "Founded in 2022...",
+        },
+        {
+          title: "What We Do",
+          description: "We specialize in construction, renovation...",
+        },
+      ],
+    },
   },
   {
-    id: 2,
+    id: 10,
     collection: "contact",
     heading: "Contact Us.",
     title: "Contact Us",
+    featuredImage: "https://picsum.photos/200/300",
     paragraph: `Discover answers to common questions about ${siteSettings.siteTitle}.`,
     hasPage: true,
     slug: "/contact-us",
-    addToMenu: "Primary",
+    addToQuery: "Primary",
     sections: ["hero", "contact"],
     redirectFrom: ["/contact"],
     contactInfo: [
       {
-        icon: faPhone,
+        icon: getIcon("fa", "Phone"),
         label: "Phone",
         value: "(732) 939-1309",
         get href() {
@@ -153,7 +169,7 @@ const collections = [
         },
       },
       {
-        icon: faEnvelope,
+        icon: getIcon("fa", "Envelope"),
         label: "Email",
         value: "prontonj@gmail.com",
         get href() {
@@ -165,22 +181,22 @@ const collections = [
       {
         platform: "Facebook",
         href: "https://facebook.com/griffinswebservices",
-        icon: faFacebook,
+        icon: getIcon("fab", "Facebook"),
       },
       {
         platform: "X",
         href: "https://twitter.com/griffinswebservices",
-        icon: faXTwitter,
+        icon: getIcon("fab", "XTwitter"),
       },
       {
         platform: "LinkedIn",
         href: "https://linkedin.com/company/griffins-web-services",
-        icon: faLinkedin,
+        icon: getIcon("fab", "Linkedin"),
       },
       {
         platform: "Instagram",
         href: "https://instagram.com/griffinswebservices",
-        icon: faInstagram,
+        icon: getIcon("fab", "Instagram"),
       },
     ],
     formFields: [
@@ -198,167 +214,67 @@ const collections = [
     collection: "services",
     heading: "Our Services",
     title: "Services",
+    featuredImage: "https://picsum.photos/200/300",
     hasPage: true,
     itemsHasPage: true,
     slug: "/services",
+    isHeirarchical: true,
     redirectFrom: ["/service"],
     sections: ["hero", "services", "benefits", "projects", "testimonials"],
     itemSections: ["hero", "projects", "testimonials"],
-    addToMenu: ["Primary"], // Add to multiple menus
+    addToQuery: ["Primary"], // Add to multiple menus
     includeCollectionSlug: false,
-    addItemsToMenu: "Primary",
-    putItemsInSubMenu: "Primary",
+    addItemsToQuery: "Primary",
+    putItemsInSubQuery: "Primary",
     paragraph:
       "Explore our wide range of services designed to meet your needs.",
+      keywords: [
+        "construction services",
+        "general contractors",
+        "home construction",
+        "commercial construction NJ",
+      ],
     items: [
       {
-        icon: faTools,
+        icon: getIcon("fa", "Tools"),
         title: "Construction Work",
         description: "Comprehensive construction services for all your needs.",
+        slug: "/construction",
+        featuredImage: "https://picsum.photos/200/300",
+        keywords: [
+          "roofing services NJ",
+          "roof repair Middlesex County",
+          "new roof installation",
+        ],
       },
       {
-        icon: faHardHat,
+        icon: getIcon("fa", "HardHat"),
         title: "Roofing",
+        featuredImage: "https://picsum.photos/200/300",
         description:
           "Professional roofing services to keep your home protected.",
+        parentItem: "/construction",
       },
       {
-        icon: faRoad,
-        title: "Paving",
-        description: "Durable and attractive paving solutions.",
-      },
-      {
-        icon: faHammer,
-        title: "Kitchen Renovation, Construction, Repair",
-        description:
-          "Transform your kitchen with expert renovation and repair services.",
-      },
-      {
-        icon: faShower,
-        title: "Bathroom Renovation, Construction, Repair",
-        description: "Upgrade your bathroom with our specialized services.",
-      },
-      {
-        icon: faRulerCombined,
-        title: "Interior Renovation, Construction, Repair",
-        description:
-          "Revitalize your home's interior with our expert craftsmanship.",
-      },
-      {
-        icon: faHome,
+        icon: getIcon("fa", "Home"),
         title: "Exterior Renovation, Construction, Repair",
+        featuredImage: "https://picsum.photos/200/300",
         description:
           "Enhance your home's exterior with quality renovation services.",
       },
       {
-        icon: faWater,
+        icon: getIcon("fa", "Water"),
         title: "Gutter Work",
+        featuredImage: "https://picsum.photos/200/300",
         description:
           "Reliable gutter installation, maintenance, and repair services.",
       },
       {
-        icon: faPaintRoller,
+        icon: getIcon("fa", "PaintRoller"),
         title: "Painting (Interior/Exterior)",
+        featuredImage: "https://picsum.photos/200/300",
         description: "High-quality painting services to transform your space.",
         slug: "/painting",
-      },
-      {
-        icon: faGavel,
-        title: "Concrete and Masonry",
-        description: "Expert concrete and masonry work for lasting results.",
-      },
-      {
-        icon: faTree,
-        title: "Landscaping Design",
-        description:
-          "Creative landscaping solutions for a beautiful outdoor space.",
-      },
-      {
-        icon: faLeaf,
-        title: "Brush Removal",
-        description: "Efficient brush removal services to clear your property.",
-      },
-      {
-        icon: faCubes,
-        title: "Hardscaping",
-        description: "Durable and attractive hardscaping solutions.",
-      },
-      {
-        icon: faBuilding,
-        title: "Brick and Stone",
-        description: "Specialized brick and stone work for custom designs.",
-      },
-      {
-        icon: faTruck,
-        title: "Excavation",
-        description: "Professional excavation services for your projects.",
-      },
-      {
-        icon: faScrewdriver,
-        title: "Structural Framework Repair",
-        description: "Repair and strengthen your building's framework.",
-      },
-      {
-        icon: faWarehouse,
-        title: "Small-Medium Structures Building",
-        description:
-          "Construction services for small to medium-sized structures.",
-      },
-      {
-        icon: faPlusSquare,
-        title: "First Floor Home Additions",
-        description:
-          "Expand your home with expertly built first-floor additions.",
-      },
-      {
-        icon: faWindowRestore,
-        title: "Windows Installation",
-        description: "Professional window installation services for your home.",
-      },
-      {
-        icon: faLayerGroup,
-        title: "Siding and Trims",
-        description: "High-quality siding and trim installation services.",
-      },
-      {
-        icon: faDungeon,
-        title: "Basement Renovation",
-        description:
-          "Transform your basement into a functional and beautiful space.",
-      },
-      {
-        icon: faMonument,
-        title: "Attic Renovation",
-        description:
-          "Make the most of your attic space with our renovation services.",
-      },
-      {
-        icon: faChair,
-        title: "Deck/Patio Remodeling",
-        description:
-          "Upgrade your outdoor space with our deck and patio remodeling services.",
-      },
-      {
-        icon: faHammer,
-        title: "Demolition (Interior)",
-        description: "Efficient and safe interior demolition services.",
-      },
-      {
-        icon: faGavel,
-        title: "Demolition (Exterior)",
-        description:
-          "Professional exterior demolition for structures of all sizes.",
-      },
-      {
-        icon: faTrash,
-        title: "Small Structure Demolition",
-        description:
-          "Specialized demolition for decks, patios, pools, and sheds.",
-      },
-      {
-        icon: faBuilding,
-        title: "Medium-Sized Building Demolition",
-        description: "Expert demolition for garages and house extensions.",
       },
     ],
   },
@@ -367,10 +283,11 @@ const collections = [
     collection: "projects",
     heading: "Our Projects",
     title: "Projects",
+    featuredImage: "https://picsum.photos/200/300",
     hasPage: true,
     itemsHasPage: true,
     // includeCollectionSlug: true,
-    addToMenu: "Primary", // Add to Primary menu
+    addToQuery: "Primary", // Add to Primary menu
     slug: "/projects",
     sections: ["hero", "projects", "testimonials"],
     itemSections: ["hero", "services", "testimonials"],
@@ -382,14 +299,14 @@ const collections = [
         description:
           "A complete renovation of a family kitchen to modern standards.",
         slug: "/kitchen-remodel",
-        image: "https://example.com/kitchen.jpg",
+        featuredImage: "https://picsum.photos/200/300",
       },
       {
         id: 2,
         name: "Garage Demolition",
         description: "Efficiently demolished a medium-sized garage structure.",
         slug: "/garage-demolition",
-        image: "https://example.com/garage.jpg",
+        featuredImage: "https://picsum.photos/200/300",
       },
     ],
   },
@@ -399,7 +316,8 @@ const collections = [
     heading: "What Our Clients Say",
     title: "Testimonials",
     hasPage: true,
-    addToMenu: "Primary", // Add to Primary menu
+    featuredImage: "https://picsum.photos/200/300",
+    addToQuery: "Primary", // Add to Primary menu
     slug: "/testimonials",
     sections: ["hero", "testimonials"],
     items: [
@@ -408,12 +326,14 @@ const collections = [
         quote:
           "Pronto Construction did an amazing job with our home renovation. Highly recommend!",
         position: "Homeowner, Middlesex County",
+        featuredImage: "https://picsum.photos/200/300",
       },
       {
         name: "Jane Smith",
         quote:
           "Their demolition services were efficient and thorough. Very professional team.",
         position: "Business Owner, NJ",
+        featuredImage: "https://picsum.photos/200/300",
       },
     ],
   },
@@ -423,7 +343,8 @@ const collections = [
     heading: "Frequently Asked Questions",
     title: "FAQ",
     hasPage: true,
-    addToMenu: "Primary", // Add to Primary menu
+    featuredImage: "https://picsum.photos/200/300",
+    addToQuery: "Primary", // Add to Primary menu
     slug: "/faq",
     sections: ["hero", "faq"],
     redirectFrom: ["/questions"],
@@ -457,35 +378,17 @@ const collections = [
   },
   {
     id: 7,
-    collection: "Benefits",
-    heading: "Benefits of Choosing Pronto",
-    title: "Benefits of Choosing Pronto",
-    hasPage: false,
-    sections: ["hero", "blog"],
-    items: [
-      {
-        title: "Satifaction Guarantee",
-        icon: faRibbon,
-        description: "We guarantee your satisfaction with our services.",
-      },
-      {
-        title: "Quick and Efficient",
-        icon: faTruck,
-        description:
-          "We pride ourselves on our swift and efficient junk removal process, guaranteeing a hassle-free experience that minimizes disruption to your day.",
-      },
-    ],
-  },
-  {
-    id: 8,
     collection: "process",
     heading: "How It Works",
     title: "Process",
-    hasPage: false,
+    featuredImage: "https://picsum.photos/200/300",
+    hasPage: true,
     itemsHasPage: false,
     slug: "/process",
-    sections: ["hero", "process"],
-    paragraph: "Discover how Pronto Construction & Demolition simplifies your project from start to finish.",
+    sections: ["hero", "process", "contact"],
+    addToQuery: "Primary",
+    paragraph:
+      "Discover how Pronto Construction & Demolition simplifies your project from start to finish.",
     items: [
       {
         id: 1,
@@ -493,7 +396,7 @@ const collections = [
         description:
           "We start by understanding your needs and creating a customized plan for your project.",
         slug: null, // No individual page for this step
-        image: "https://example.com/consultation.jpg",
+        featuredImage: "https://picsum.photos/200/300",
       },
       {
         id: 2,
@@ -501,7 +404,7 @@ const collections = [
         description:
           "Receive a detailed, upfront quote with no hidden fees or surprises.",
         slug: null,
-        image: "https://example.com/quote.jpg",
+        featuredImage: "https://picsum.photos/200/300",
       },
       {
         id: 3,
@@ -509,7 +412,7 @@ const collections = [
         description:
           "Our skilled team brings your vision to life while prioritizing safety and precision.",
         slug: null,
-        image: "https://example.com/execution.jpg",
+        featuredImage: "https://picsum.photos/200/300",
       },
       {
         id: 4,
@@ -517,24 +420,27 @@ const collections = [
         description:
           "We leave your site spotless and ready for its next phase.",
         slug: null,
-        image: "https://example.com/cleanup.jpg",
+        featuredImage: "https://picsum.photos/200/300",
       },
     ],
   },
 ];
 
-// Homepage Override
 const homepageOverride = {
+  title: `${siteSettings.siteTagline}`,
+  description: `${siteSettings.siteDescription}`,
+  featuredImage: "https://picsum.photos/200/300",
   sections: [
     "hero",
     "about",
     "process",
-    "services",
     "benefits",
+    "whyChooseUs",
+    "services",
     "projects",
     "testimonials",
     "contact",
-    "cta"
+    "cta",
   ],
 };
 
@@ -566,7 +472,7 @@ const Content = {
   siteSettings,
   collections: processedCollections,
   pages: processedPages,
-  menus: generateMenus(processedCollections, siteSettings),
+  queries: generateQueries(processedCollections, siteSettings), // Changed "menus" to "queries"
 };
 
 export default Content;

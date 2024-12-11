@@ -1,24 +1,19 @@
 // CMS/Utils/GetPageStructure.js
 import Content from "../../Content";
 import { getCollection } from "../GetContent/GetCollection";
-import { RelationalUtil } from "../Relations/RelationsUtil"; // Import relational utility
+import { RelationalUtil } from "../Relationships/RelationsUtil";
 
 const relationalUtil = new RelationalUtil(Content);
 
-/**
- * Fetches the new page structure based on the provided `pageId`.
- * Ensures all content is dynamically fetched and related entities are reset.
- * @param {string} pageId - The identifier for the page.
- * @returns {object} - The structured data for the page.
- */
 export const getPageStructure = (pageId) => {
   const page = Content.pages.find((p) => p.id === pageId);
+
   if (!page) {
     console.error(`[getPageStructure] Page '${pageId}' not found in CMS.`);
     return null;
   }
 
-  // Determine if the page is a collection or an item within a collection
+  // Determine if the page is a collection or an item page
   const isCollectionPage = page.isCollection;
   const collection = isCollectionPage ? getCollection(pageId) : null;
   const isItemPage =
@@ -26,12 +21,13 @@ export const getPageStructure = (pageId) => {
     Array.isArray(collection.items) &&
     collection.items.some((item) => item.slug === pageId);
 
-  // Handle individual item pages
   const item = isItemPage
     ? collection.items.find((i) => i.slug === pageId)
     : null;
 
-  // Resolve title, description, and content
+    const featuredImage =
+    item?.featuredImage || collection?.featuredImage || page.featuredImage;
+
   const title =
     item?.title ||
     item?.name ||
@@ -44,8 +40,23 @@ export const getPageStructure = (pageId) => {
 
   let sections = [];
 
+  // Build a map of object sections (makeObjectSection: true)
+  const objectSectionsMap = {};
+  Content.collections.forEach((col) => {
+    for (const key in col) {
+      if (
+        col[key] &&
+        typeof col[key] === "object" &&
+        col[key].makeObjectSection
+      ) {
+        // Store this property as a standalone section
+        objectSectionsMap[key] = col[key];
+      }
+    }
+  });
+
   if (isCollectionPage && !isItemPage && collection) {
-    // Handle collection-level pages
+    // Handle collection-level pages (unchanged logic)
     const aggregatedRelations = {};
 
     if (Array.isArray(collection.items)) {
@@ -56,7 +67,6 @@ export const getPageStructure = (pageId) => {
               .replace("relatedTo", "")
               .toLowerCase();
             const relatedSlugs = item[relationKey] || [];
-
             const relatedItems = relatedSlugs
               .map((slug) =>
                 relationalUtil.findEntityBySlug(relatedCollectionName, slug)
@@ -70,12 +80,10 @@ export const getPageStructure = (pageId) => {
         });
       });
 
-      // Deduplicate aggregated relations
+      // Deduplicate
       Object.keys(aggregatedRelations).forEach((key) => {
         aggregatedRelations[key] = [
-          ...new Map(
-            aggregatedRelations[key].map((item) => [item.slug, item])
-          ).values(),
+          ...new Map(aggregatedRelations[key].map((i) => [i.slug, i])).values(),
         ];
       });
     }
@@ -84,37 +92,50 @@ export const getPageStructure = (pageId) => {
       let sectionData;
 
       if (sectionKey === collection.collection) {
-        sectionData = collection; // Direct collection data
+        sectionData = collection;
       } else if (sectionKey in collection) {
-        sectionData = collection[sectionKey]; // Collection-specific property
+        sectionData = collection[sectionKey];
+      } else if (objectSectionsMap[sectionKey]) {
+        // If it's a makeObjectSection sub-object
+        sectionData = objectSectionsMap[sectionKey];
       } else {
         sectionData = {
           ...(getCollection(sectionKey) || {}),
           items: aggregatedRelations[sectionKey] || [],
-        }; // Fallback to general collection
+        };
       }
 
       return { key: sectionKey, data: sectionData };
     });
   } else if (isItemPage && collection) {
-    // Handle item pages
+    // Handle item-level pages
     sections = page.sections.map((sectionKey) => {
-      const sectionData =
-        sectionKey === collection.collection
-          ? item
-          : getCollection(sectionKey, pageId);
+      let sectionData;
+      if (sectionKey === collection.collection) {
+        sectionData = item;
+      } else if (sectionKey in collection) {
+        sectionData = collection[sectionKey];
+      } else if (objectSectionsMap[sectionKey]) {
+        sectionData = objectSectionsMap[sectionKey];
+      } else {
+        sectionData = getCollection(sectionKey, pageId) || null;
+      }
 
       return { key: sectionKey, data: sectionData };
     });
   } else {
     // Handle static pages or homepage
     sections = page.sections.map((sectionKey) => {
-      const sectionData = getCollection(sectionKey, pageId);
-      return { key: sectionKey, data: sectionData };
+      if (objectSectionsMap[sectionKey]) {
+        // If we have a makeObjectSection sub-object matching this key
+        return { key: sectionKey, data: objectSectionsMap[sectionKey] };
+      } else {
+        const sectionData = getCollection(sectionKey, pageId) || null;
+        return { key: sectionKey, data: sectionData };
+      }
     });
   }
 
-  // Construct and return the final page structure
-  const pageStructure = { title, description, content, sections };
+  const pageStructure = { title, description, content, sections, featuredImage };
   return pageStructure;
 };

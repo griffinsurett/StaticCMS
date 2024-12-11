@@ -1,10 +1,9 @@
 // ThemeContentBridge.js
-// ThemeContentBridge.js
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { getPageStructure } from "./Utils/DynamicContent/GetPageStructure";
 import { getSiteSettings } from "./Utils/GetContent/GetSettings";
-import { setTitle } from "./Utils/SEO/SetTitle";
+import { setMetaInfo } from "./Utils/SEO/SetMetaInfo";
 import Content from "./Content"; // Access menus directly
 
 const useThemeContent = (pageId) => {
@@ -18,13 +17,23 @@ const useThemeContent = (pageId) => {
   useEffect(() => {
     const fetchContent = () => {
       const pageStructure = getPageStructure(pageId);
-      const siteSettings = { ...getSiteSettings(), menus: Content.menus }; // Add menus
+      const siteSettings = { ...getSiteSettings(), queries: Content.queries }; // Add menus
 
       if (pageStructure && siteSettings) {
-        // Dynamically set the document title
-        setTitle({
-          pageTitle: pageStructure.title,
+        // Merge keywords from pageStructure and siteSettings
+        const keywords = [
+          ...(pageStructure.keywords || []),
+          ...(siteSettings.keywords || []),
+        ];
+
+        // Dynamically set meta information
+        setMetaInfo({
+          title: pageStructure.title,
+          description: pageStructure.description,
+          keywords, // Pass the array
           siteTitle: siteSettings.siteTitle,
+          author: siteSettings.businessOwner,
+          image: pageStructure.featuredImage || siteSettings.siteLogo, // Include featuredImage
         });
       }
 

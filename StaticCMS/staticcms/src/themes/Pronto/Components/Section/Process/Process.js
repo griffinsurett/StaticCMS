@@ -16,7 +16,7 @@ const ProcessSection = ({ data }) => {
           <li key={index} className="process-step">
             <h3>{step.name}</h3>
             <p>{step.description}</p>
-            {step.image && <img src={step.image} alt={step.name} />}
+            {step.featuredImage && <img src={step.featuredImage} alt={step.name} />}
           </li>
         ))}
       </ol>
